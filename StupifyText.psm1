@@ -9,6 +9,7 @@ function Stupify-String {
         
     process {
         $Chars = $String.ToCharArray()
+
         [System.Func[char, System.Object]] $SelectDelegate = {
             param (
                 [Parameter(Mandatory)]
@@ -23,11 +24,10 @@ function Stupify-String {
                 [System.Char]::ToUpperInvariant($c)
             }
         }
-        $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectDelegate)
-        $StupidArray = [System.Linq.Enumerable]::ToArray($StupidQuery)
-
-        $StupidArray -join ""
         
+        $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectDelegate)
+        
+        [System.Linq.Enumerable]::ToArray($StupidQuery) -join "" 
     }
    
 }
