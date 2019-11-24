@@ -2,7 +2,7 @@ function Format-StringStupid {
     [CmdletBinding()]
     param (
         # Text to stupify
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ValueFromPipeline)]
         [string]
         $String
     )
