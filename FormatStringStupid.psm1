@@ -13,8 +13,7 @@ function Format-StringStupid {
         [System.Func[char, System.Object]] $SelectFunction = {
             param (
                 [Parameter(Mandatory)]
-                [char]
-                $c
+                [char] $c
             )
             $Rando = Get-Random -Minimum 0 -Maximum 9
 
