@@ -17,12 +17,21 @@ function Format-StringStupid {
                 $c
             )
             $Rando = Get-Random -Minimum 0 -Maximum 9
+
+            Write-Verbose "Rando: $Rando"
+            Write-Verbose "Input Char: $c"
+
             if ($Rando -lt 5) {
-                [System.Char]::ToLowerInvariant($c)
+                $Output = [System.Char]::ToLowerInvariant($c)
+              
+     
             }
             else {
-                [System.Char]::ToUpperInvariant($c)
+                $Output = [System.Char]::ToUpperInvariant($c)
             }
+
+            Write-Verbose "Output: $Output"
+            return $Output
         }
         
         $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectFunction)
