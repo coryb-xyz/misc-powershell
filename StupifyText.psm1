@@ -6,11 +6,7 @@ function Stupify-String {
         [string]
         $String
     )
-    
-    begin {
         
-    }
-    
     process {
         $Chars = $String.ToCharArray()
         [System.Func[char, System.Object]] $SelectDelegate = {
@@ -33,8 +29,5 @@ function Stupify-String {
         $StupidArray -join ""
         
     }
-    
-    end {
-        
-    }
+   
 }
