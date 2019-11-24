@@ -10,7 +10,7 @@ function Format-StringStupid {
     process {
         $Chars = $String.ToCharArray()
 
-        [System.Func[char, System.Object]] $SelectDelegate = {
+        [System.Func[char, System.Object]] $SelectFunction = {
             param (
                 [Parameter(Mandatory)]
                 [char]
@@ -25,7 +25,7 @@ function Format-StringStupid {
             }
         }
         
-        $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectDelegate)
+        $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectFunction)
         
         [System.Linq.Enumerable]::ToArray($StupidQuery) -join "" 
     }
