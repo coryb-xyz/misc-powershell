@@ -22,9 +22,7 @@ function Format-StringStupid {
             Write-Verbose "Input Char: $c"
 
             if ($Rando -lt 5) {
-                $Output = [System.Char]::ToLowerInvariant($c)
-              
-     
+                $Output = [System.Char]::ToLowerInvariant($c)    
             }
             else {
                 $Output = [System.Char]::ToUpperInvariant($c)
@@ -36,7 +34,7 @@ function Format-StringStupid {
         
         $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectFunction)
         
-        [System.Linq.Enumerable]::ToArray($StupidQuery) -join "" 
+        [System.Linq.Enumerable]::ToArray($StupidQuery) -join ""
     }
    
 }
