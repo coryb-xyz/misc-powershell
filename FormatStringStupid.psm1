@@ -1,4 +1,4 @@
-function Stupify-String {
+function Format-StringStupid {
     [CmdletBinding()]
     param (
         # Text to stupify
