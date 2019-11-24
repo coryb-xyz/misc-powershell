@@ -29,6 +29,8 @@ function Stupify-String {
         }
         $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectDelegate)
         $StupidArray = [System.Linq.Enumerable]::ToArray($StupidQuery)
+
+        $StupidArray -join ""
         
     }
     
