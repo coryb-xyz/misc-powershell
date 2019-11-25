@@ -43,7 +43,7 @@ function Format-StringStupid {
         public static extern bool SetClipboardData(uint uFormat, IntPtr data);
 '@
 
-      $WinUtils = Add-Type -MemberDefinition $Signature -Name Win32Utils -Namespace PInvoke -PassThru
+        $WinUtils = Add-Type -MemberDefinition $Signature -Name Win32Utils -Namespace PInvoke -PassThru
     }
         
     process {
@@ -56,13 +56,13 @@ function Format-StringStupid {
         if ($Copy) {
             Write-Verbose "Copying to system clipboard"
 
-            $WinUtils::OpenClipboard([System.IntPtr]::Zero)
+            Write-Verbose $WinUtils::OpenClipboard([System.IntPtr]::Zero)
 
             $PTR = [System.Runtime.InteropServices.Marshal]::StringToHGlobalUni($Result)
 
-            $WinUtils::SetClipboardData(13, $PTR)
+            Write-Verbose $WinUtils::SetClipboardData(13, $PTR)
 
-            $WinUtils::CloseClipboard()
+            Write-Verbose $WinUtils::CloseClipboard()
 
             [System.Runtime.InteropServices.Marshal]::FreeHGlobal($PTR)
         }
