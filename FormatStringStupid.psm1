@@ -7,7 +7,7 @@ function Format-StringStupid {
         [string] $String,
         
         [Parameter()]
-        [bool] $Copy
+        [switch] $Copy
     )
 
     begin {
