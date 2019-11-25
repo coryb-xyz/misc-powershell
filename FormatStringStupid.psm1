@@ -6,10 +6,8 @@ function Format-StringStupid {
         [ValidateNotNullOrEmpty()]
         [string] $String
     )
-        
-    process {
-        $Chars = $String.ToCharArray()
 
+    begin {
         [System.Func[char, System.Object]] $SelectFunction = {
             param (
                 [Parameter(Mandatory)]
@@ -30,6 +28,10 @@ function Format-StringStupid {
             Write-Verbose "Output: $Output"
             return $Output
         }
+    }
+        
+    process {
+        $Chars = $String.ToCharArray()      
         
         $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectFunction)
         
