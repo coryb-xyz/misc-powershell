@@ -43,7 +43,7 @@ function Format-StringStupid {
         internal static extern bool SetClipboardData(uint uFormat, IntPtr data);
 '@
 
-        Add-Type -MemberDefinition $signature -Name Win32Utils -Namespace PInvoke -Using PInvoke, System.Text;
+        Add-Type -MemberDefinition $signature -Name Win32Utils -Namespace PInvoke -Using PInvoke, System.Runtime.InteropServices
     }
         
     process {
