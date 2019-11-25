@@ -3,6 +3,7 @@ function Format-StringStupid {
     param (
         # Text to stupify
         [Parameter(Mandatory, ValueFromPipeline)]
+        [ValidateNotNullOrEmpty()]
         [string]
         $String
     )
