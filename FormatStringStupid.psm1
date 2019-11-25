@@ -4,8 +4,7 @@ function Format-StringStupid {
         # Text to stupify
         [Parameter(Mandatory, ValueFromPipeline)]
         [ValidateNotNullOrEmpty()]
-        [string]
-        $String
+        [string] $String
     )
         
     process {
