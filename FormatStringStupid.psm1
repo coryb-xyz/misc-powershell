@@ -34,13 +34,13 @@ function Format-StringStupid {
 
         $signature = @'
         [DllImport("user32.dll")]
-        internal static extern bool OpenClipboard(IntPtr hWndNewOwner);
+        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
     
         [DllImport("user32.dll")]
-        internal static extern bool CloseClipboard();
+        public static extern bool CloseClipboard();
     
         [DllImport("user32.dll")]
-        internal static extern bool SetClipboardData(uint uFormat, IntPtr data);
+        public static extern bool SetClipboardData(uint uFormat, IntPtr data);
 '@
 
         Add-Type -MemberDefinition $signature -Name Win32Utils -Namespace PInvoke -Using PInvoke, System.Runtime.InteropServices
