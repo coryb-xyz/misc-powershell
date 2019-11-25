@@ -56,7 +56,7 @@ function Format-StringStupid {
         if ($Copy) {
             Write-Verbose "Copying to system clipboard"
 
-            $WinUtils::CloseClipboard([System.IntPtr]::Zero)
+            $WinUtils::OpenClipboard([System.IntPtr]::Zero)
 
             $PTR = [System.Runtime.InteropServices.Marshal]::StringToHGlobalUni($Result)
 
@@ -64,7 +64,7 @@ function Format-StringStupid {
 
             $WinUtils::CloseClipboard()
 
-            $WinUtils::FreeHGlobal($PTR)
+            [System.Runtime.InteropServices.Marshal]::FreeHGlobal($PTR)
         }
 
         return $Result
