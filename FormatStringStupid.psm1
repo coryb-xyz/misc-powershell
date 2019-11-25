@@ -32,7 +32,7 @@ function Format-StringStupid {
             return $Output
         }
 
-        $signature = @'
+        $Signature = @'
         [DllImport("user32.dll")]
         public static extern bool OpenClipboard(IntPtr hWndNewOwner);
     
@@ -43,7 +43,7 @@ function Format-StringStupid {
         public static extern bool SetClipboardData(uint uFormat, IntPtr data);
 '@
 
-        Add-Type -MemberDefinition $signature -Name Win32Utils -Namespace PInvoke -Using PInvoke, System.Runtime.InteropServices
+      $WinUtils = Add-Type -MemberDefinition $Signature -Name Win32Utils -Namespace PInvoke -Using PInvoke, System.Runtime.InteropServices
     }
         
     process {
@@ -56,15 +56,15 @@ function Format-StringStupid {
         if ($Copy) {
             Write-Verbose "Copying to system clipboard"
 
-            [PInvoke.Win32Utils]::OpenClipboard([System.IntPtr]::Zero)
+            $WinUtils::CloseClipboard([System.IntPtr]::Zero)
 
             $PTR = [System.Runtime.InteropServices.Marshal]::StringToHGlobalUni($Result)
 
-            [PInvoke.Win32Utils]::SetClipboardData(13, $PTR)
+            $WinUtils::SetClipboardData(13, $PTR)
 
-            [PInvoke.Win32Utils]::CloseClipboard()
+            $WinUtils::CloseClipboard()
 
-            [System.Runtime.InteropServices.Marshal]::FreeHGlobal($PTR)
+            $WinUtils::FreeHGlobal($PTR)
         }
 
         return $Result
