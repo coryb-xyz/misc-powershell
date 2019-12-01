@@ -25,28 +25,25 @@ namespace MyCmdlet
             WriteVerbose("Loading files");
             _names = File.ReadAllLines(
                 Path.Combine(
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(),
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+                    throw new InvalidOperationException(),
                     "GetRandomName.txt"
-                    )
-                );
+                )
+            );
         }
 
         protected override void ProcessRecord()
         {
             WriteVerbose(Name);
-           WriteObject(
-               _names.Where(n => n.Length == Name.Length)
-                   .OrderBy(n => Guid.NewGuid())
-                   .FirstOrDefault()
-               );
+            WriteObject(
+                _names.Where(n => n.Length == Name.Length)
+                    .OrderBy(n => Guid.NewGuid())
+                    .FirstOrDefault()
+            );
         }
 
-        protected override void EndProcessing()
-        {
-        }
+        protected override void EndProcessing() { }
 
-        protected override void StopProcessing()
-        {
-        }
+        protected override void StopProcessing() { }
     }
 }
