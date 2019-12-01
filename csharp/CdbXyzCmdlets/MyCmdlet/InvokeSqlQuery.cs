@@ -8,22 +8,25 @@ using System.Threading.Tasks;
 
 namespace MyCmdlet
 {
-    [Cmdlet(VerbsLifecycle.Invoke, "SqlQuery")]
+    [Cmdlet(VerbsLifecycle.Invoke, "SqlQuery", DefaultParameterSetName = IntegratedAuth)]
     public class InvokeSqlQuery : PSCmdlet
     {
-        [Parameter(Position = 1)]
+        [Parameter(Position = 1, ParameterSetName = IntegratedAuth)]
+        [Parameter(Position = 1, ParameterSetName = SqlAuth)]
         public string Server { get; set; }
 
-        [Parameter(Position = 2)]
+        [Parameter(Position = 2, ParameterSetName = IntegratedAuth)]
+        [Parameter(Position = 2, ParameterSetName = SqlAuth)]
         public string Database { get; set; }
 
-        [Parameter(Position = 3, Mandatory = true)]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = IntegratedAuth)]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = SqlAuth)]
         public string Query { get; set; }
 
-        [Parameter(Position = 4)]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = SqlAuth)]
         public string Username { get; set; }
 
-        [Parameter(Position = 5)]
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = SqlAuth)]
         public string Password { get; set; }
         
         private SqlConnection _connection;
@@ -35,8 +38,7 @@ namespace MyCmdlet
             ValidateParameters();
             WriteVerbose(this.ParameterSetName);
 
-            string connectionString;
-            connectionString = this.ParameterSetName == IntegratedAuth ? $@"Data Source={Server};Initial Catalog={Database};
+            var connectionString = this.ParameterSetName == IntegratedAuth ? $@"Data Source={Server};Initial Catalog={Database};
                       Integrated Security=SSPI;Persist Security Info=true" : $@"Data Source={Server};Initial CataLog={Database};User ID={Username};Password={Password}";
 
             _connection = new SqlConnection(connectionString);
