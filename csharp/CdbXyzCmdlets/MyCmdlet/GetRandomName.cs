@@ -12,7 +12,6 @@ using System.Threading;
 namespace MyCmdlet
 {
     [Cmdlet(VerbsCommon.Get, "RandomName")]
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class GetRandomName : Cmdlet
     {
         private string[] _names;

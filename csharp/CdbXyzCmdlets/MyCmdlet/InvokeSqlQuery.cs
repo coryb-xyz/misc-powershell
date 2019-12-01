@@ -28,7 +28,7 @@ namespace MyCmdlet
 
         [Parameter(Position = 5, Mandatory = true, ParameterSetName = SqlAuth)]
         public string Password { get; set; }
-        
+
         private SqlConnection _connection;
         private const string IntegratedAuth = "IntegratedAuth";
         private const string SqlAuth = "SqlAuth";
@@ -38,8 +38,10 @@ namespace MyCmdlet
             ValidateParameters();
             WriteVerbose(this.ParameterSetName);
 
-            var connectionString = this.ParameterSetName == IntegratedAuth ? $@"Data Source={Server};Initial Catalog={Database};
-                      Integrated Security=SSPI;Persist Security Info=true" : $@"Data Source={Server};Initial CataLog={Database};User ID={Username};Password={Password}";
+            var connectionString = this.ParameterSetName == IntegratedAuth
+                ? $@"Data Source={Server};Initial Catalog={Database};
+                      Integrated Security=SSPI;Persist Security Info=true"
+                : $@"Data Source={Server};Initial CataLog={Database};User ID={Username};Password={Password}";
 
             _connection = new SqlConnection(connectionString);
             _connection.Open();
@@ -61,6 +63,8 @@ namespace MyCmdlet
             {
                 command.CommandType = System.Data.CommandType.Text;
                 command.CommandText = Query;
+                
+                
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -71,6 +75,7 @@ namespace MyCmdlet
                         {
                             record.Properties.Add(new PSVariableProperty(new PSVariable(reader.GetName(i), reader[i])));
                         }
+
                         WriteObject(record);
                     }
                 }
@@ -79,15 +84,35 @@ namespace MyCmdlet
 
         private void ValidateParameters()
         {
-            if (string.IsNullOrEmpty(Server))
+            const string serverVariable = "InvokeSqlQueryServer";
+            const string databaseVariable = "InvokeSqlQueryDatabase";
+
+            if (!string.IsNullOrEmpty(Server))
             {
-                ThrowParameterError("Server");
+                SessionState.PSVariable.Set(serverVariable, Server);
+            }
+            else
+            {
+                Server = SessionState.PSVariable.GetValue(serverVariable, string.Empty).ToString();
+                if (string.IsNullOrEmpty(Server))
+                {
+                    ThrowParameterError("Server");
+                }
             }
 
-            if (string.IsNullOrEmpty(Database))
+            if (!string.IsNullOrEmpty(Database))
             {
-                ThrowParameterError("Database");
+                SessionState.PSVariable.Set(databaseVariable, Database);
             }
+            else
+            {
+                Database = SessionState.PSVariable.GetValue(databaseVariable, string.Empty).ToString();
+                if (string.IsNullOrEmpty(Database))
+                {
+                    ThrowParameterError("Database");
+                }
+            }
+
         }
 
         private void ThrowParameterError(string parameterName)
@@ -98,8 +123,8 @@ namespace MyCmdlet
                     Guid.NewGuid().ToString(),
                     ErrorCategory.InvalidArgument,
                     null
-                    )
-                );
+                )
+            );
         }
     }
 }
