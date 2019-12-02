@@ -50,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetRandomNamePipelineTest.cs" />
     <Compile Include="GetRandomNamesTests.cs" />
-    <Compile Include="InvokeSqlQueryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
