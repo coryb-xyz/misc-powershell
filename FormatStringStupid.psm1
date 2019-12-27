@@ -4,10 +4,7 @@ function Format-StringStupid {
         # Text to stupify
         [Parameter(Mandatory, ValueFromPipeline)]
         [ValidateNotNullOrEmpty()]
-        [string] $String,
-        
-        [Parameter()]
-        [switch] $Copy
+        [string] $String
     )
 
     begin {
@@ -31,19 +28,7 @@ function Format-StringStupid {
             Write-Verbose "Output: $Output"
             return $Output
         }
-
-        $Signature = @'
-        [DllImport("user32.dll")]
-        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
-    
-        [DllImport("user32.dll")]
-        public static extern bool CloseClipboard();
-    
-        [DllImport("user32.dll")]
-        public static extern bool SetClipboardData(uint uFormat, IntPtr data);
-'@
-
-        $WinUtils = Add-Type -MemberDefinition $Signature -Name Win32Utils -Namespace PInvoke -PassThru
+      
     }
         
     process {
@@ -51,24 +36,7 @@ function Format-StringStupid {
         
         $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectFunction)
         
-        $Result = [System.Linq.Enumerable]::ToArray($StupidQuery) -join ""
-
-        if ($Copy) {
-            Write-Verbose "Copying to system clipboard"
-
-            Write-Verbose $WinUtils::OpenClipboard([System.IntPtr]::Zero)
-
-            $PTR = [System.Runtime.InteropServices.Marshal]::StringToHGlobalUni($Result)
-
-            Write-Verbose $WinUtils::SetClipboardData(13, $PTR)
-
-            Write-Verbose $WinUtils::CloseClipboard()
-
-            [System.Runtime.InteropServices.Marshal]::FreeHGlobal($PTR)
-        }
-
-        return $Result
-        
+        Write-Output [System.Linq.Enumerable]::ToArray($StupidQuery) -join ""        
     }
    
 }
