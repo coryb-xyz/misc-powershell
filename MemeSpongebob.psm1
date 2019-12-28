@@ -30,12 +30,13 @@ function Meme-Spongebob {
         $format.Alignment = [System.Drawing.StringAlignment]::Center
         $format.LineAlignment = [System.Drawing.StringAlignment]::Center
         $font = "Tahoma"
-        $fontSize = $spongeBobBMP.Height / 5
+        $fontSize = $spongeBobBMP.Height / 10
+        $graphics.DrawImage($spongeBobBMP, 0, 0)
     }
     
     process {
-        $graphics.DrawImage($spongeBobBMP, 0, 0)
-        $graphics.DrawString($Text, [System.Drawing.Font]::new($font, $fontSize), [System.Drawing.Brushes]::Black, $rectF, $format)
+        $stupidText = Format-StringStupid $Text 
+        $graphics.DrawString($stupidText, [System.Drawing.Font]::new($font, $fontSize), [System.Drawing.Brushes]::Black, $rectF, $format)
         [System.Windows.Forms.Clipboard]::SetImage($outBMP)
     }
     

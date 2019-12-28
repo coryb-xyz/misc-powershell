@@ -36,7 +36,7 @@ function Format-StringStupid {
         
         $StupidQuery = [System.Linq.Enumerable]::Select($Chars, $SelectFunction)
         
-        Write-Output [System.Linq.Enumerable]::ToArray($StupidQuery) -join ""        
+        [System.Linq.Enumerable]::ToArray($StupidQuery) -join ""        
     }
    
 }
