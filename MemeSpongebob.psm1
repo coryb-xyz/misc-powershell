@@ -35,6 +35,8 @@ function Meme-Spongebob {
         $format = [System.Drawing.StringFormat]::new()
         $format.Alignment = [System.Drawing.StringAlignment]::Center
         $format.LineAlignment = [System.Drawing.StringAlignment]::Center
+
+        # Font Parameters
         $font = "Tahoma"
         $fontSize = $spongeBobBMP.Height / 10
           
