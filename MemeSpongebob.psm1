@@ -18,25 +18,37 @@ function Meme-Spongebob {
         $spongeBobBMP = [System.Drawing.Bitmap]::new($memoryStream)
         $memoryStream.Dispose()
 
-
+        # Create bitmap to hold text and Spongebob
         $outBMP = [System.Drawing.Bitmap]::new($spongeBobBMP.Width, $spongeBobBMP.Height * 1.5)
+
+        # Rectangle to draw text in
         $rectF = [System.Drawing.RectangleF]::new(0, $spongeBobBMP.Height, $spongeBobBMP.Width, $spongeBobBMP.Height * 0.5)
+        
+        # Create a new graphic object and set parameters
         $graphics = [System.Drawing.Graphics]::FromImage($outBMP)
         $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
         $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
         $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
         $graphics.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::AntiAliasGridFit
+
+        # .net format object
         $format = [System.Drawing.StringFormat]::new()
         $format.Alignment = [System.Drawing.StringAlignment]::Center
         $format.LineAlignment = [System.Drawing.StringAlignment]::Center
         $font = "Tahoma"
         $fontSize = $spongeBobBMP.Height / 10
+          
+        # Prep for memeing
+        $graphics.FillRectangle([System.Drawing.Brushes]::WhiteSmoke, 0, 0, $outBMP.Width, $outBMP.Height)
         $graphics.DrawImage($spongeBobBMP, 0, 0)
     }
     
     process {
+        # Make the meme
         $stupidText = Format-StringStupid $Text 
         $graphics.DrawString($stupidText, [System.Drawing.Font]::new($font, $fontSize), [System.Drawing.Brushes]::Black, $rectF, $format)
+
+        # Put the image in the clipboard
         [System.Windows.Forms.Clipboard]::SetImage($outBMP)
     }
     

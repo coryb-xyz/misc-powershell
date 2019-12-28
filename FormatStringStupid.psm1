@@ -18,7 +18,7 @@ function Format-StringStupid {
             Write-Verbose "Rando: $Rando"
             Write-Verbose "Input Char: $c"
 
-            if ($Rando -lt 5) {
+            if ($Rando -lt 6) {
                 $Output = [System.Char]::ToLowerInvariant($c)    
             }
             else {
