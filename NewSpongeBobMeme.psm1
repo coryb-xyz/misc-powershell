@@ -1,7 +1,7 @@
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
 
-function Meme-Spongebob {
+function New-SpongeBobMeme {
     [CmdletBinding()]
     param (
         # Meme Text
