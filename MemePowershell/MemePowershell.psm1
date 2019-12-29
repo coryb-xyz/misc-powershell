@@ -1,14 +1,14 @@
-$Public = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction Stop )
+$Public = @(Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue)
 
+Write-Verbose "$ToExport, $Public"
 foreach ($import in $Public) {
-    Try
-    {
+    Try {
+        Write-Verbose "Loading $import.fullname"
         . $import.fullname
     }
-    Catch
-    {
+    Catch {
         Write-Error -Message "Failed to import function $($import.fullname): $_"
     }
 }
 
-Export-ModuleMember -Function $Public.Basename
+Export-ModuleMember -Function *
