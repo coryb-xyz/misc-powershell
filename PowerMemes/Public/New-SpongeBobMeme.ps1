@@ -1,6 +1,8 @@
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+
 $Global:ValidColors = ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object { $_.Name })
+$Global:ValidFonts = [System.Drawing.Text.InstalledFontCollection]::new().Families.Name
 
 function New-SpongeBobMeme
 {
@@ -34,7 +36,7 @@ function New-SpongeBobMeme
         [string]
         $BackgroundColor = "WhiteSmoke",
 
-        # Forground Color
+        # Font face
         [Parameter()]
         [ArgumentCompleter( {
                 [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
@@ -54,7 +56,29 @@ function New-SpongeBobMeme
             }
         )]
         [string]
-        $ForegroundColor = "Black"
+        $ForegroundColor = "Black",
+
+        # Forground Color
+        [Parameter()]
+        [ArgumentCompleter( {
+                [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
+                param(
+                    [string] $CommandName,
+                    [string] $ParameterName,
+                    [string] $WordToComplete,
+                    [System.Management.Automation.Language.CommandAst] $CommandAst,
+                    [System.Collections.IDictionary] $FakeBoundParameters
+                )
+
+                $Global:ValidFonts | Where-Object { $_ -like "*$WordToComplete*" }
+            })]
+        [ValidateScript(
+            {
+                $_ -in ($Global:ValidFonts)
+            }
+        )]
+        [string]
+        $FontFace = "Tahoma"
     )
 
     begin
@@ -84,8 +108,6 @@ function New-SpongeBobMeme
         $format.Alignment = [System.Drawing.StringAlignment]::Center
         $format.LineAlignment = [System.Drawing.StringAlignment]::Center
 
-        # Font Parameters
-        $font = "Tahoma"
         $fontSize = $spongeBobBMP.Height / 10
 
         # Prep for memeing
@@ -98,7 +120,7 @@ function New-SpongeBobMeme
         Write-Output "Hot memes, coming up..."
         # Make the meme
         $stupidText = Format-StringStupid $Text
-        $graphics.DrawString($stupidText, [System.Drawing.Font]::new($font, $fontSize), [System.Drawing.Brushes]::$ForegroundColor, $rectF, $format)
+        $graphics.DrawString($stupidText, [System.Drawing.Font]::new($FontFace, $fontSize), [System.Drawing.Brushes]::$ForegroundColor, $rectF, $format)
 
         # Put the image in the clipboard
 
