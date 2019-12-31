@@ -1,5 +1,6 @@
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+$Global:ValidColors = ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name })
 
 function New-SpongeBobMeme {
 
@@ -21,12 +22,12 @@ function New-SpongeBobMeme {
                 [System.Management.Automation.Language.CommandAst] $CommandAst,
                 [System.Collections.IDictionary] $FakeBoundParameters
             )
-            $ValidColors = ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name })
-            Get-ValidColors | Where-Object {$_ -like "*$WordToComplete*" }
+
+            $Global:ValidColors | Where-Object {$_ -like "*$WordToComplete*" }
         })]
         [ValidateScript(
             {
-                $_ -in (Get-ValidColors)
+                $_ -in ($Global:ValidColors)
             }
         )]
         [string]
