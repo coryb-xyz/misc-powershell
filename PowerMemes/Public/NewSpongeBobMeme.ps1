@@ -2,6 +2,7 @@
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
 function New-SpongeBobMeme {
+
     [CmdletBinding()]
     param (
         # Meme Text
@@ -20,11 +21,12 @@ function New-SpongeBobMeme {
                 [System.Management.Automation.Language.CommandAst] $CommandAst,
                 [System.Collections.IDictionary] $FakeBoundParameters
             )
-             [System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name }
+            #$ValidColors = ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name })
+            $ValidColors | Where-Object {$_ -like "*$WordToComplete*" }
         })]
         [ValidateScript(
             {
-                $_ -in ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name })
+                $_ -in ($ValidColors)
             }
         )]
         [string]
