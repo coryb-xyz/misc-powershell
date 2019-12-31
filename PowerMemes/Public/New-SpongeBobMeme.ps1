@@ -12,27 +12,27 @@ function New-SpongeBobMeme
         [string]
         $Text,
 
-        # # Background Color
-        # [Parameter()]
-        # [ArgumentCompleter( {
-        #         [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
-        #         param(
-        #             [string] $CommandName,
-        #             [string] $ParameterName,
-        #             [string] $WordToComplete,
-        #             [System.Management.Automation.Language.CommandAst] $CommandAst,
-        #             [System.Collections.IDictionary] $FakeBoundParameters
-        #         )
+        # Background Color
+        [Parameter()]
+        [ArgumentCompleter( {
+                [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
+                param(
+                    [string] $CommandName,
+                    [string] $ParameterName,
+                    [string] $WordToComplete,
+                    [System.Management.Automation.Language.CommandAst] $CommandAst,
+                    [System.Collections.IDictionary] $FakeBoundParameters
+                )
 
-        #         $Global:ValidColors | Where-Object { $_ -like "*$WordToComplete*" }
-        #     })]
-        # [ValidateScript(
-        #     {
-        #         $_ -in ($Global:ValidColors)
-        #     }
-        # )]
-        # [string]
-        # $BackgroundColor = "WhiteSmoke",
+                $Global:ValidColors | Where-Object { $_ -like "*$WordToComplete*" }
+            })]
+        [ValidateScript(
+            {
+                $_ -in ($Global:ValidColors)
+            }
+        )]
+        [string]
+        $BackgroundColor = "WhiteSmoke",
 
         # Forground Color
         [Parameter()]
