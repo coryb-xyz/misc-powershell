@@ -7,7 +7,28 @@ function New-SpongeBobMeme {
         # Meme Text
         [Parameter(Mandatory)]
         [string]
-        $Text
+        $Text,
+
+        # Background Color
+        [Parameter()]
+        [ArgumentCompleter({
+            [OutputType([System.Management.Automation.CompletionResult])]  # zero to many
+            param(
+                [string] $CommandName,
+                [string] $ParameterName,
+                [string] $WordToComplete,
+                [System.Management.Automation.Language.CommandAst] $CommandAst,
+                [System.Collections.IDictionary] $FakeBoundParameters
+            )
+             [System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | % {$_.Name }
+        })]
+        [ValidateScript(
+            {
+                $_ -in ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | % {$_.Name })
+            }
+        )]
+        [string]
+        $BackgroundColor = "WhiteSmoke"
     )
 
     begin {
@@ -41,7 +62,7 @@ function New-SpongeBobMeme {
         $fontSize = $spongeBobBMP.Height / 10
 
         # Prep for memeing
-        $graphics.FillRectangle([System.Drawing.Brushes]::WhiteSmoke, 0, 0, $outBMP.Width, $outBMP.Height)
+        $graphics.FillRectangle([System.Drawing.Brushes]::$BackgroundColor, 0, 0, $outBMP.Width, $outBMP.Height)
         $graphics.DrawImage($spongeBobBMP, 0, 0)
     }
 
