@@ -70,7 +70,8 @@ function New-SpongeBobMeme
                     [System.Collections.IDictionary] $FakeBoundParameters
                 )
 
-                $Global:ValidFonts | Where-Object { $_ -like "*$WordToComplete*" }
+                $Global:ValidFonts | Where-Object { $_ -like "*$WordToComplete*" } | Foreach-Object { "'$_'"}
+
             })]
         [ValidateScript(
             {
