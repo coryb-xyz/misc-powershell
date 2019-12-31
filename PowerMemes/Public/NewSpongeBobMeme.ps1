@@ -20,11 +20,11 @@ function New-SpongeBobMeme {
                 [System.Management.Automation.Language.CommandAst] $CommandAst,
                 [System.Collections.IDictionary] $FakeBoundParameters
             )
-             [System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | % {$_.Name }
+             [System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name }
         })]
         [ValidateScript(
             {
-                $_ -in ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | % {$_.Name })
+                $_ -in ([System.Drawing.Brushes].GetProperties([System.Reflection.BindingFlags]::Static -bor [System.Reflection.BindingFlags]::Public) | ForEach-Object {$_.Name })
             }
         )]
         [string]
