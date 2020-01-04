@@ -1,2 +1,2 @@
-Import-Module .\MemePowershell
-Meme-Spongebob "I'm an engineer"
+Import-Module .\PowerMemes
+New-SpongeBobMeme "I'm an engineer"
